@@ -20,11 +20,18 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField] private float groundStickForce = -2f;
 
     private CharacterController cc;
+    private Rigidbody rb;
     private Vector3 verticalVel;
 
     private void Awake()
     {
         cc = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.constraints |= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        }
 
         if (cameraRoot == null && Camera.main != null)
             cameraRoot = Camera.main.transform;
@@ -50,6 +57,7 @@ public sealed class PlayerController : MonoBehaviour
         if (cameraRoot == null) return;
 
         HandleMove();
+        HandleLook();
     }
 
     private void HandleMove()
@@ -70,15 +78,7 @@ public sealed class PlayerController : MonoBehaviour
         Vector3 moveDir = camF * input.z + camR * input.x;
         moveDir = Vector3.ClampMagnitude(moveDir, 1f);
 
-        if (moveDir.sqrMagnitude > 0.0001f)
-        {
-            Quaternion targetRot = Quaternion.LookRotation(moveDir, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(
-                transform.rotation,
-                targetRot,
-                rotationSpeed * Time.deltaTime
-            );
-        }
+        if (moveDir.sqrMagnitude > 0.0001f) moveDir.Normalize();
 
         float speed = (stats != null) ? stats.MoveSpeed : moveSpeedFallback;
         Vector3 horizontal = moveDir * speed;
@@ -94,5 +94,23 @@ public sealed class PlayerController : MonoBehaviour
 
         Vector3 velocity = horizontal + verticalVel;
         cc.Move(velocity * Time.deltaTime);
+    }
+
+    private void HandleLook()
+    {
+        Vector3 camF = cameraRoot.forward;
+        camF.y = 0f;
+        if (camF.sqrMagnitude < 0.0001f) return;
+
+        Quaternion targetRotation = Quaternion.LookRotation(camF.normalized, Vector3.up);
+
+        if (rb != null)
+        {
+            rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, targetRotation, rotationSpeed * Time.deltaTime));
+        }
+        else
+        {
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
     }
 }
