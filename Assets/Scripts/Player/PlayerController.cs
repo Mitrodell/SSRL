@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public sealed class PlayerController : MonoBehaviour
@@ -11,6 +12,9 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeedFallback = 6f;
     [SerializeField] private float rotationSpeed = 9999f; // очень быстро, чтобы "прилипало" к камере
     [SerializeField] private float gravity = -18f;
+
+    [Header("Input (New Input System)")]
+    [SerializeField] private InputActionReference moveAction;
 
     [Header("Ground")]
     [SerializeField] private float groundStickForce = -2f;
@@ -27,6 +31,16 @@ public sealed class PlayerController : MonoBehaviour
 
         if (stats == null)
             stats = GetComponent<PlayerStats>();
+    }
+
+    private void OnEnable()
+    {
+        moveAction?.action?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        moveAction?.action?.Disable();
     }
 
     private void Update()
@@ -65,8 +79,9 @@ public sealed class PlayerController : MonoBehaviour
 
     private void HandleMove()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
+        Vector2 move = moveAction != null ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
+        float x = move.x;
+        float z = move.y;
 
         // небольшая dead-zone, чтобы не "ползло"
         if (Mathf.Abs(x) < 0.01f) x = 0f;
