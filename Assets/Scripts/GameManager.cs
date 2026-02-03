@@ -33,23 +33,18 @@ public sealed class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton-safe
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
-
-        // Если будешь делать несколько сцен — можно раскомментировать:
-        // DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
         if (upgradePanel != null)
             upgradePanel.SetActive(false);
-        upgradePanel.SetActive(false);
         SetCursorForUI(false);
 
         if (spawner == null) Debug.LogWarning("[GameManager] EnemySpawner is not assigned.");
@@ -83,13 +78,8 @@ public sealed class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Вызывается врагом при смерти (MVP: параметр не нужен).
-    /// </summary>
     public void EnemyKilled(Enemy enemy)
-    {
-        // Можно добавить счёт/очки/дроп
-    }
+    {    }
 
     private void NextWave()
     {
@@ -186,7 +176,7 @@ public sealed class GameManager : MonoBehaviour
     {
         if (upgradePanel != null && (btnA == null || btnB == null || btnAText == null || btnBText == null))
         {
-            // мягкая подсказка в инспекторе
+
         }
     }
 #endif
