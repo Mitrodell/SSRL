@@ -5,8 +5,8 @@ public sealed class WeaponSystem : MonoBehaviour
 {
     [Header("Refs")]
     [SerializeField] private Camera cam;
-    [SerializeField] private Transform muzzle;        // shootPoint игрока
-    [SerializeField] private LayerMask aimMask;       // Enemy + Ground + Default
+    [SerializeField] private Transform muzzle;
+    [SerializeField] private LayerMask aimMask;
     [SerializeField] private float aimMaxDistance = 120f;
 
     [Header("Weapons (components on this object or children)")]
