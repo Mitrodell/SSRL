@@ -49,26 +49,7 @@ public sealed class PlayerController : MonoBehaviour
         if (stats != null && stats.IsDead) return;
         if (cameraRoot == null) return;
 
-        FaceCameraYaw();
-
         HandleMove();
-    }
-
-    private void FaceCameraYaw()
-    {
-        Vector3 camForward = cameraRoot.forward;
-        camForward.y = 0f;
-
-        if (camForward.sqrMagnitude < 0.0001f)
-            return;
-
-        Quaternion targetRot = Quaternion.LookRotation(camForward.normalized, Vector3.up);
-
-        transform.rotation = Quaternion.RotateTowards(
-            transform.rotation,
-            targetRot,
-            rotationSpeed * Time.deltaTime
-        );
     }
 
     private void HandleMove()
@@ -88,6 +69,16 @@ public sealed class PlayerController : MonoBehaviour
 
         Vector3 moveDir = camF * input.z + camR * input.x;
         moveDir = Vector3.ClampMagnitude(moveDir, 1f);
+
+        if (moveDir.sqrMagnitude > 0.0001f)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(moveDir, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                targetRot,
+                rotationSpeed * Time.deltaTime
+            );
+        }
 
         float speed = (stats != null) ? stats.MoveSpeed : moveSpeedFallback;
         Vector3 horizontal = moveDir * speed;

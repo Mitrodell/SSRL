@@ -14,7 +14,7 @@ public sealed class EnemyHealthBar : MonoBehaviour
     [SerializeField] private Color backgroundColor = new Color(0f, 0f, 0f, 0.6f);
     [SerializeField] private Color fillColor = new Color(0.85f, 0.2f, 0.2f, 1f);
 
-    private static Sprite builtInSprite;
+    private static Sprite runtimeSprite;
 
     private Canvas canvas;
     private RectTransform canvasTransform;
@@ -23,6 +23,7 @@ public sealed class EnemyHealthBar : MonoBehaviour
     private void Awake()
     {
         if (enemy == null) enemy = GetComponentInParent<Enemy>();
+
         CreateBar();
         UpdateFill();
     }
@@ -31,12 +32,29 @@ public sealed class EnemyHealthBar : MonoBehaviour
     {
         if (enemy == null || canvasTransform == null) return;
 
-        if (Camera.main != null)
+        var cam = Camera.main;
+        if (cam != null)
         {
-            canvasTransform.rotation = Quaternion.LookRotation(canvasTransform.position - Camera.main.transform.position);
+            Vector3 toCam = canvasTransform.position - cam.transform.position;
+            if (toCam.sqrMagnitude > 0.0001f)
+                canvasTransform.rotation = Quaternion.LookRotation(toCam);
         }
 
         UpdateFill();
+    }
+
+    private static Sprite GetRuntimeSprite()
+    {
+        if (runtimeSprite != null) return runtimeSprite;
+
+        var tex = Texture2D.whiteTexture;
+        runtimeSprite = Sprite.Create(
+            tex,
+            new Rect(0, 0, tex.width, tex.height),
+            new Vector2(0.5f, 0.5f),
+            100f
+        );
+        return runtimeSprite;
     }
 
     private void CreateBar()
@@ -55,10 +73,7 @@ public sealed class EnemyHealthBar : MonoBehaviour
         canvas.overrideSorting = true;
         canvas.sortingOrder = 50;
 
-        if (builtInSprite == null)
-        {
-            builtInSprite = Resources.GetBuiltinResource<Sprite>("UI/Skin/UISprite.psd");
-        }
+        var sprite = GetRuntimeSprite();
 
         var background = new GameObject("Background");
         background.transform.SetParent(canvasTransform, false);
@@ -67,7 +82,7 @@ public sealed class EnemyHealthBar : MonoBehaviour
         backgroundRect.sizeDelta = size;
 
         var backgroundImage = background.AddComponent<Image>();
-        backgroundImage.sprite = builtInSprite;
+        backgroundImage.sprite = sprite;
         backgroundImage.color = backgroundColor;
         backgroundImage.raycastTarget = false;
 
@@ -81,7 +96,7 @@ public sealed class EnemyHealthBar : MonoBehaviour
         fillRect.offsetMax = Vector2.zero;
 
         fillImage = fill.AddComponent<Image>();
-        fillImage.sprite = builtInSprite;
+        fillImage.sprite = sprite;
         fillImage.color = fillColor;
         fillImage.type = Image.Type.Filled;
         fillImage.fillMethod = Image.FillMethod.Horizontal;

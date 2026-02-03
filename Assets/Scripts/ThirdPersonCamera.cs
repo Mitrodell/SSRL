@@ -17,6 +17,9 @@ public sealed class ThirdPersonCamera : MonoBehaviour
     [SerializeField] private float pitchMin = -35f;
     [SerializeField] private float pitchMax = 70f;
 
+    [Header("Smoothing")]
+    [SerializeField] private float followSmooth = 14f;  // больше = быстрее догоняет
+    [SerializeField] private float rotateSmooth = 18f;
 
     [Header("Collision (optional)")]
     [SerializeField] private bool useCollision = true;
@@ -58,6 +61,9 @@ public sealed class ThirdPersonCamera : MonoBehaviour
         float mx = look.x;
         float my = look.y;
 
+        if (Mathf.Abs(mx) < 0.01f) mx = 0f;
+        if (Mathf.Abs(my) < 0.01f) my = 0f;
+
         yaw += mx * sensitivity * Time.deltaTime;
         pitch -= my * sensitivity * Time.deltaTime;
         pitch = Mathf.Clamp(pitch, pitchMin, pitchMax);
@@ -65,7 +71,6 @@ public sealed class ThirdPersonCamera : MonoBehaviour
         Quaternion rot = Quaternion.Euler(pitch, yaw, 0f);
 
         Vector3 pivotPos = targetPivot.position + new Vector3(0f, heightOffset, 0f);
-
         Vector3 localOffset = new Vector3(sideOffset, 0f, -distance);
         Vector3 desiredPos = pivotPos + rot * localOffset;
 
@@ -83,6 +88,8 @@ public sealed class ThirdPersonCamera : MonoBehaviour
                 }
             }
         }
+        float posT = 1f - Mathf.Exp(-followSmooth * Time.deltaTime);
+        float rotT = 1f - Mathf.Exp(-rotateSmooth * Time.deltaTime);
 
         transform.position = desiredPos;
         transform.rotation = rot;
