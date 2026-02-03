@@ -55,15 +55,7 @@ public sealed class ThirdPersonCamera : MonoBehaviour
         if (targetPivot == null) return;
         if (GameManager.Instance != null && GameManager.Instance.IsPaused) return;
 
-        Vector2 look = Vector2.zero;
-        if (lookAction != null && lookAction.action != null)
-        {
-            look = lookAction.action.ReadValue<Vector2>();
-        }
-        else if (Mouse.current != null)
-        {
-            look = Mouse.current.delta.ReadValue();
-        }
+        Vector2 look = lookAction != null ? lookAction.action.ReadValue<Vector2>() : Vector2.zero;
         float mx = look.x;
         float my = look.y;
 
