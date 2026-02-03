@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public sealed class WeaponSystem : MonoBehaviour
 {
@@ -13,8 +14,16 @@ public sealed class WeaponSystem : MonoBehaviour
     [SerializeField] private WeaponBase gunWeapon;
     [SerializeField] private WeaponBase beamWeapon;
 
+    [Header("Input (New Input System)")]
+    [SerializeField] private InputActionReference attackAction;
+    [SerializeField] private InputActionReference selectMeleeAction;
+    [SerializeField] private InputActionReference selectGunAction;
+    [SerializeField] private InputActionReference selectBeamAction;
+
     private WeaponBase current;
     private PlayerStats stats;
+    private readonly System.Collections.Generic.List<WeaponBase> weapons = new System.Collections.Generic.List<WeaponBase>(3);
+    private int currentIndex;
 
     public WeaponBase Current => current;
 
@@ -25,12 +34,32 @@ public sealed class WeaponSystem : MonoBehaviour
 
         stats = GetComponent<PlayerStats>();
 
-        // Выбор оружия по умолчанию
-        if (gunWeapon != null) current = gunWeapon;
-        else if (meleeWeapon != null) current = meleeWeapon;
-        else if (beamWeapon != null) current = beamWeapon;
+        BuildWeaponList();
+        if (weapons.Count > 0)
+        {
+            currentIndex = Mathf.Clamp(currentIndex, 0, weapons.Count - 1);
+            current = weapons[currentIndex];
+        }
         else
+        {
             Debug.LogWarning("[WeaponSystem] No weapons assigned.");
+        }
+    }
+
+    private void OnEnable()
+    {
+        attackAction?.action?.Enable();
+        selectMeleeAction?.action?.Enable();
+        selectGunAction?.action?.Enable();
+        selectBeamAction?.action?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        attackAction?.action?.Disable();
+        selectMeleeAction?.action?.Disable();
+        selectGunAction?.action?.Disable();
+        selectBeamAction?.action?.Disable();
     }
 
     private void Update()
@@ -48,12 +77,12 @@ public sealed class WeaponSystem : MonoBehaviour
         current.Tick(dt);
 
         // Переключение оружия
-        if (Input.GetKeyDown(KeyCode.Alpha1)) Equip(meleeWeapon);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) Equip(gunWeapon);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) Equip(beamWeapon);
+        if (WasPressed(selectMeleeAction)) Equip(meleeWeapon);
+        if (WasPressed(selectGunAction)) Equip(gunWeapon);
+        if (WasPressed(selectBeamAction)) Equip(beamWeapon);
 
         // Огонь
-        if (Input.GetMouseButton(0))
+        if (IsPressed(attackAction))
         {
             AimContext aim = BuildAimContext();
             current.Fire(aim);
@@ -66,6 +95,8 @@ public sealed class WeaponSystem : MonoBehaviour
         if (weapon == current) return;
 
         current = weapon;
+        int index = weapons.IndexOf(current);
+        if (index >= 0) currentIndex = index;
     }
 
     private AimContext BuildAimContext()
@@ -90,5 +121,23 @@ public sealed class WeaponSystem : MonoBehaviour
             return hit.point;
 
         return ray.origin + ray.direction * aimMaxDistance;
+    }
+
+    private void BuildWeaponList()
+    {
+        weapons.Clear();
+        if (meleeWeapon != null) weapons.Add(meleeWeapon);
+        if (gunWeapon != null) weapons.Add(gunWeapon);
+        if (beamWeapon != null) weapons.Add(beamWeapon);
+    }
+
+    private static bool WasPressed(InputActionReference action)
+    {
+        return action != null && action.action != null && action.action.WasPressedThisFrame();
+    }
+
+    private static bool IsPressed(InputActionReference action)
+    {
+        return action != null && action.action != null && action.action.IsPressed();
     }
 }

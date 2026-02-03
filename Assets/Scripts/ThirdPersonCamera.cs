@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public sealed class ThirdPersonCamera : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public sealed class ThirdPersonCamera : MonoBehaviour
     [SerializeField] private float sensitivity = 180f; // deg/sec
     [SerializeField] private float pitchMin = -35f;
     [SerializeField] private float pitchMax = 70f;
+
+    [Header("Input (New Input System)")]
+    [SerializeField] private InputActionReference lookAction;
 
     [Header("Collision (optional)")]
     [SerializeField] private bool useCollision = true;
@@ -36,13 +40,24 @@ public sealed class ThirdPersonCamera : MonoBehaviour
         pitch = e.x;
     }
 
+    private void OnEnable()
+    {
+        lookAction?.action?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        lookAction?.action?.Disable();
+    }
+
     private void LateUpdate()
     {
         if (targetPivot == null) return;
         if (GameManager.Instance != null && GameManager.Instance.IsPaused) return;
 
-        float mx = Input.GetAxisRaw("Mouse X");
-        float my = Input.GetAxisRaw("Mouse Y");
+        Vector2 look = lookAction != null ? lookAction.action.ReadValue<Vector2>() : Vector2.zero;
+        float mx = look.x;
+        float my = look.y;
 
         yaw += mx * sensitivity * Time.deltaTime;
         pitch -= my * sensitivity * Time.deltaTime;
