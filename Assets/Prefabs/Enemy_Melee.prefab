@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 636113145838446303}
   - component: {fileID: 7245219493981390088}
   - component: {fileID: 5641052294388925048}
+  - component: {fileID: 9150000000000000001}
   m_Layer: 3
   m_Name: Enemy_Melee
   m_TagString: Untagged
@@ -167,6 +168,23 @@ MonoBehaviour:
     m_Bits: 8
   drawGizmos: 0
   currentHp: 0
+--- !u!114 &9150000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5278583675450963574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62643e4bf52849a8ad623dc589053880, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  worldOffset: {x: 0, y: 1.6, z: 0}
+  size: {x: 1.4, y: 0.18}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0.6}
+  fillColor: {r: 0.85, g: 0.2, b: 0.2, a: 1}
 --- !u!1 &7254899376696303244
 GameObject:
   m_ObjectHideFlags: 0

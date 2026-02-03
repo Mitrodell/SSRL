@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 6532710116266479188}
   - component: {fileID: 1489716351691471847}
   - component: {fileID: 5872775748467635076}
+  - component: {fileID: 9150000000000000002}
   m_Layer: 3
   m_Name: Enemy_Ranged
   m_TagString: Untagged
@@ -278,3 +279,20 @@ MonoBehaviour:
   minDistance: 10
   maxDistance: 20
   aimHeight: 0.7
+--- !u!114 &9150000000000000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8073286650013900143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62643e4bf52849a8ad623dc589053880, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  worldOffset: {x: 0, y: 1.6, z: 0}
+  size: {x: 1.4, y: 0.18}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0.6}
+  fillColor: {r: 0.85, g: 0.2, b: 0.2, a: 1}
