@@ -594,6 +594,20 @@ MonoBehaviour:
   projectilePrefab: {fileID: 8853205100827025027, guid: 58d57aab2c1ac48449f94194d4e8cf2e, type: 3}
   projectileSpeed: 18
   pierce: 0
+--- !u!114 &324460602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player/Look
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,9 +763,10 @@ MonoBehaviour:
   distance: 6
   sideOffset: 0
   heightOffset: 0
-  sensitivity: 180
+  sensitivity: 120
   pitchMin: -30
   pitchMax: 60
+  lookAction: {fileID: 324460602}
   useCollision: 1
   collisionMask:
     serializedVersion: 2
@@ -1065,6 +1080,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 126950437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &761521856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player/SelectMelee
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: b31bab3c-3f9f-4802-a5b1-cbedce10ccd4
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1698,11 +1727,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bfe407bffb1b8140ad519e6c2e3842b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  cameraRoot: {fileID: 0}
-  stats: {fileID: 0}
+  cameraRoot: {fileID: 330585546}
+  stats: {fileID: 1379522912}
   moveSpeedFallback: 6
   rotationSpeed: 720
   gravity: -20
+  moveAction: {fileID: 1645074856}
   groundStickForce: -2
 --- !u!114 &1379522912
 MonoBehaviour:
@@ -1767,6 +1797,10 @@ MonoBehaviour:
   meleeWeapon: {fileID: 934908353}
   gunWeapon: {fileID: 307374592}
   beamWeapon: {fileID: 2005103162}
+  attackAction: {fileID: 2035749942}
+  selectMeleeAction: {fileID: 761521856}
+  selectGunAction: {fileID: 1891118779}
+  selectBeamAction: {fileID: 1578674983}
 --- !u!1 &1450644208
 GameObject:
   m_ObjectHideFlags: 0
@@ -2158,6 +2192,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548877909}
   m_CullTransparentMesh: 1
+--- !u!114 &1578674983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player/SelectBeam
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: e5139c02-bc58-4464-8ffd-8d458cde9626
 --- !u!1 &1588949150
 GameObject:
   m_ObjectHideFlags: 0
@@ -2326,6 +2374,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624760292}
   m_CullTransparentMesh: 1
+--- !u!114 &1645074856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player/Move
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
 --- !u!1 &1759456594
 GameObject:
   m_ObjectHideFlags: 0
@@ -2553,6 +2615,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1864939060}
   m_CullTransparentMesh: 1
+--- !u!114 &1891118779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player/SelectRanged
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 987033df-1582-4a1b-8e41-8ecdbd27d618
 --- !u!1 &2005103161
 GameObject:
   m_ObjectHideFlags: 0
@@ -2774,6 +2850,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 650347691}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2035749942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player/Attack
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
 --- !u!1 &2039176792
 GameObject:
   m_ObjectHideFlags: 0

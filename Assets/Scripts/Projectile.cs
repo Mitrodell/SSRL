@@ -41,7 +41,6 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // Игрока не трогаем, если target=Enemy, и наоборот
         if (target == ProjectileTarget.Enemy)
         {
             Enemy e = other.GetComponent<Enemy>();
@@ -51,7 +50,7 @@ public class Projectile : MonoBehaviour
                 if (!pierce) Destroy(gameObject);
             }
         }
-        else // target == Player
+        else
         {
             PlayerStats ps = other.GetComponent<PlayerStats>();
             if (ps != null)

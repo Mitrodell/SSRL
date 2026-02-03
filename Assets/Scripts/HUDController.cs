@@ -12,7 +12,6 @@ public sealed class HUDController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private TextMeshProUGUI weaponText;
 
-    // cached values to avoid repaint every frame
     private int lastHp = int.MinValue;
     private int lastMaxHp = int.MinValue;
     private int lastWave = int.MinValue;
@@ -20,7 +19,6 @@ public sealed class HUDController : MonoBehaviour
 
     private void Awake()
     {
-        // Автоподхват, если не назначили в инспекторе
         if (player == null) player = FindFirstObjectByType<PlayerStats>();
         if (weaponSystem == null) weaponSystem = FindFirstObjectByType<WeaponSystem>();
     }

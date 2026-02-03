@@ -5,15 +5,15 @@ using UnityEngine.InputSystem;
 public sealed class PlayerController : MonoBehaviour
 {
     [Header("Refs")]
-    [SerializeField] private Transform cameraRoot; // Camera.main.transform
+    [SerializeField] private Transform cameraRoot;
     [SerializeField] private PlayerStats stats;
 
     [Header("Move")]
     [SerializeField] private float moveSpeedFallback = 6f;
-    [SerializeField] private float rotationSpeed = 9999f; // очень быстро, чтобы "прилипало" к камере
+    [SerializeField] private float rotationSpeed = 9999f;
     [SerializeField] private float gravity = -18f;
 
-    [Header("Input (New Input System)")]
+    [Header("Input")]
     [SerializeField] private InputActionReference moveAction;
 
     [Header("Ground")]
@@ -49,10 +49,8 @@ public sealed class PlayerController : MonoBehaviour
         if (stats != null && stats.IsDead) return;
         if (cameraRoot == null) return;
 
-        // 1) Всегда поворачиваем игрока по направлению камеры (по Y)
         FaceCameraYaw();
 
-        // 2) Движение WASD относительно камеры (strafe)
         HandleMove();
     }
 
@@ -66,10 +64,6 @@ public sealed class PlayerController : MonoBehaviour
 
         Quaternion targetRot = Quaternion.LookRotation(camForward.normalized, Vector3.up);
 
-        // Можно мгновенно:
-        // transform.rotation = targetRot;
-
-        // Или очень быстро и плавно:
         transform.rotation = Quaternion.RotateTowards(
             transform.rotation,
             targetRot,
@@ -83,7 +77,6 @@ public sealed class PlayerController : MonoBehaviour
         float x = move.x;
         float z = move.y;
 
-        // небольшая dead-zone, чтобы не "ползло"
         if (Mathf.Abs(x) < 0.01f) x = 0f;
         if (Mathf.Abs(z) < 0.01f) z = 0f;
 
@@ -99,7 +92,6 @@ public sealed class PlayerController : MonoBehaviour
         float speed = (stats != null) ? stats.MoveSpeed : moveSpeedFallback;
         Vector3 horizontal = moveDir * speed;
 
-        // гравитация
         if (cc.isGrounded)
         {
             if (verticalVel.y < 0f) verticalVel.y = groundStickForce;
