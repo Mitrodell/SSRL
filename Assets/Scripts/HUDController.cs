@@ -12,9 +12,14 @@ public sealed class HUDController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private TextMeshProUGUI weaponText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI experienceText;
 
     [Header("UI - HP Bar")]
     [SerializeField] private Image hpFillImage;
+
+    [Header("UI - Experience Bar")]
+    [SerializeField] private Image expFillImage;
     [SerializeField] private bool smoothBar = true;
     [SerializeField] private float barLerpSpeed = 12f;
 
@@ -22,7 +27,11 @@ public sealed class HUDController : MonoBehaviour
     private float lastMaxHp = int.MinValue;
     private int lastWave = int.MinValue;
     private string lastWeaponName = null;
+    private int lastLevel = int.MinValue;
+    private int lastExp = int.MinValue;
+    private int lastExpToNext = int.MinValue;
     private float shownFill = 1f;
+    private float shownExpFill = 0f;
 
     private void Awake()
     {
@@ -30,6 +39,8 @@ public sealed class HUDController : MonoBehaviour
         if (weaponSystem == null) weaponSystem = FindFirstObjectByType<WeaponSystem>();
         if (hpFillImage != null)
             shownFill = hpFillImage.fillAmount;
+        if (expFillImage != null)
+            shownExpFill = expFillImage.fillAmount;
     }
 
     private void Update()
@@ -37,6 +48,7 @@ public sealed class HUDController : MonoBehaviour
         UpdateHP();
         UpdateWave();
         UpdateWeapon();
+        UpdateProgression();
     }
 
     private void UpdateHP()
@@ -70,6 +82,50 @@ public sealed class HUDController : MonoBehaviour
             {
                 shownFill = target;
                 hpFillImage.fillAmount = shownFill;
+            }
+        }
+    }
+
+
+    private void UpdateProgression()
+    {
+        if (player == null)
+        {
+            if (levelText != null) levelText.text = "LVL -";
+            if (experienceText != null) experienceText.text = "EXP -/-";
+            return;
+        }
+
+        int level = player.Level;
+        int exp = Mathf.FloorToInt(player.CurrentExperience);
+        int expToNext = Mathf.CeilToInt(player.ExperienceToNextLevel);
+
+        if (levelText != null && level != lastLevel)
+        {
+            lastLevel = level;
+            levelText.text = $"LVL {level}";
+        }
+
+        if (experienceText != null && (exp != lastExp || expToNext != lastExpToNext))
+        {
+            lastExp = exp;
+            lastExpToNext = expToNext;
+            experienceText.text = $"EXP: {exp}/{expToNext}";
+        }
+
+        if (expFillImage != null)
+        {
+            float target = player.ExperienceProgress01;
+
+            if (smoothBar)
+            {
+                shownExpFill = Mathf.Lerp(shownExpFill, target, barLerpSpeed * Time.deltaTime);
+                expFillImage.fillAmount = shownExpFill;
+            }
+            else
+            {
+                shownExpFill = target;
+                expFillImage.fillAmount = shownExpFill;
             }
         }
     }

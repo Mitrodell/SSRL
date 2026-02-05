@@ -7,6 +7,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private float maxHp = 30f;
     [SerializeField] private float moveSpeed = 3.5f;
     [SerializeField] private float touchDamage = 10f;
+    [SerializeField] private float experienceDrop = 10f;
 
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 540f;
@@ -36,6 +37,7 @@ public abstract class Enemy : MonoBehaviour
     public float CurrentHp => currentHp;
     public float MoveSpeed => moveSpeed;
     public float TouchDamage => touchDamage;
+    public float ExperienceDrop => experienceDrop;
     public bool IsDead => currentHp <= 0f;
 
     protected virtual void Awake()
@@ -154,6 +156,7 @@ public abstract class Enemy : MonoBehaviour
         maxHp = Mathf.Max(1f, maxHp);
         moveSpeed = Mathf.Max(0f, moveSpeed);
         touchDamage = Mathf.Max(0f, touchDamage);
+        experienceDrop = Mathf.Max(0f, experienceDrop);
         rotationSpeed = Mathf.Max(0f, rotationSpeed);
         separationRadius = Mathf.Max(0f, separationRadius);
         separationStrength = Mathf.Max(0f, separationStrength);
