@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public sealed class PlayerStats : MonoBehaviour
@@ -10,6 +11,12 @@ public sealed class PlayerStats : MonoBehaviour
     [Header("Move")]
     [SerializeField] private float moveSpeed = 6f;
 
+    [Header("Level")]
+    [SerializeField] private int level = 1;
+    [SerializeField] private float experience;
+    [SerializeField] private float expToNextLevel = 5f;
+    [SerializeField] private float expGrowthPerLevel = 1.35f;
+
     // --- Public read-only ---
     public float maxHpValue => maxHp;
     public float hpValue => hp;
@@ -18,6 +25,12 @@ public sealed class PlayerStats : MonoBehaviour
     public float Hp => hp;
     public float MoveSpeed => moveSpeed;
     public bool IsDead => hp <= 0f;
+
+    public int Level => level;
+    public float Experience => experience;
+    public float ExpToNextLevel => expToNextLevel;
+
+    public event Action<int> OnLevelUp;
 
     // --- Upgrades tracking ---
     private readonly HashSet<string> takenUpgrades = new HashSet<string>();
@@ -33,6 +46,11 @@ public sealed class PlayerStats : MonoBehaviour
         maxHp = Mathf.Max(1f, maxHp);
         hp = Mathf.Clamp(hp, 0f, maxHp);
         moveSpeed = Mathf.Max(0f, moveSpeed);
+
+        level = Mathf.Max(1, level);
+        experience = Mathf.Max(0f, experience);
+        expToNextLevel = Mathf.Max(1f, expToNextLevel);
+        expGrowthPerLevel = Mathf.Max(1.05f, expGrowthPerLevel);
     }
 
     public void TakeDamage(float amount)
@@ -54,6 +72,21 @@ public sealed class PlayerStats : MonoBehaviour
         if (amount <= 0f) return;
 
         hp = Mathf.Min(maxHp, hp + amount);
+    }
+
+    public void AddExperience(float amount)
+    {
+        if (amount <= 0f) return;
+
+        experience += amount;
+
+        while (experience >= expToNextLevel)
+        {
+            experience -= expToNextLevel;
+            level++;
+            expToNextLevel = Mathf.Ceil(expToNextLevel * expGrowthPerLevel);
+            OnLevelUp?.Invoke(level);
+        }
     }
 
     // Апгрейды
