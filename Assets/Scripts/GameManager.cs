@@ -32,6 +32,7 @@ public sealed class GameManager : MonoBehaviour
 
     private int wave;
     private int pendingUpgradePicks;
+    private bool isManualPause;
 
     private UpgradeChoice choiceA;
     private UpgradeChoice choiceB;
@@ -71,6 +72,11 @@ public sealed class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ToggleManualPause();
+        }
+
         UpdateHUD();
 
         if (!IsPaused && spawner != null && spawner.IsWaveCleared())
@@ -122,8 +128,8 @@ public sealed class GameManager : MonoBehaviour
         if (upgradePanel == null) return;
         if (upgradePanel.activeSelf) return;
 
-        SetPaused(true);
         upgradePanel.SetActive(true);
+        RefreshPauseState();
 
         choiceA = UpgradeSystem.RandomChoice(player);
         do { choiceB = UpgradeSystem.RandomChoice(player); }
@@ -132,7 +138,7 @@ public sealed class GameManager : MonoBehaviour
         if (choiceA == null || choiceB == null)
         {
             upgradePanel.SetActive(false);
-            SetPaused(false);
+            RefreshPauseState();
             return;
         }
 
@@ -171,7 +177,7 @@ public sealed class GameManager : MonoBehaviour
             return;
         }
 
-        SetPaused(false);
+        RefreshPauseState();
     }
 
     public void PlayerDied()
@@ -185,6 +191,21 @@ public sealed class GameManager : MonoBehaviour
     {
         IsPaused = paused;
         SetCursorForUI(paused);
+    }
+
+    private void ToggleManualPause()
+    {
+        if (upgradePanel != null && upgradePanel.activeSelf)
+            return;
+
+        isManualPause = !isManualPause;
+        RefreshPauseState();
+    }
+
+    private void RefreshPauseState()
+    {
+        bool isUpgradeOpen = upgradePanel != null && upgradePanel.activeSelf;
+        SetPaused(isManualPause || isUpgradeOpen);
     }
 
     private static void SetCursorForUI(bool uiOpen)

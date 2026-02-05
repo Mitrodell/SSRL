@@ -33,6 +33,8 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsPaused)
+            return;
         transform.position += direction * speed * Time.deltaTime;
 
         life -= Time.deltaTime;
