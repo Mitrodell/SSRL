@@ -26,6 +26,8 @@ public abstract class Enemy : MonoBehaviour
     protected Rigidbody rb;
 
     private readonly Collider[] sepHits = new Collider[16];
+    private float slowMultiplier = 1f;
+    private float slowTimer;
 
     // movement “intent” computed in Update, applied in FixedUpdate
     protected Vector3 desiredVelocity;
@@ -36,6 +38,7 @@ public abstract class Enemy : MonoBehaviour
     public float MaxHp => maxHp;
     public float CurrentHp => currentHp;
     public float MoveSpeed => moveSpeed;
+    public float EffectiveMoveSpeed => moveSpeed * slowMultiplier;
     public float TouchDamage => touchDamage;
     public float ExperienceDrop => experienceDrop;
     public bool IsDead => currentHp <= 0f;
@@ -61,6 +64,8 @@ public abstract class Enemy : MonoBehaviour
     {
         desiredVelocity = Vector3.zero;
         hasRotation = false;
+
+        TickSlow();
 
         if (GameManager.Instance != null && GameManager.Instance.IsPaused) return;
         if (player == null) return;
@@ -143,6 +148,13 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    public void ApplySlow(float speedMultiplier, float duration)
+    {
+        float clampedMultiplier = Mathf.Clamp(speedMultiplier, 0.05f, 1f);
+        slowMultiplier = Mathf.Min(slowMultiplier, clampedMultiplier);
+        slowTimer = Mathf.Max(slowTimer, duration);
+    }
+
     public virtual void ApplyWaveScaling(float hpMultiplier, float damageMultiplier)
     {
         maxHp *= Mathf.Max(0.01f, hpMultiplier);
@@ -167,5 +179,18 @@ public abstract class Enemy : MonoBehaviour
         if (!drawGizmos) return;
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, separationRadius);
+    }
+
+    private void TickSlow()
+    {
+        if (slowTimer <= 0f)
+        {
+            slowMultiplier = 1f;
+            return;
+        }
+
+        slowTimer -= Time.deltaTime;
+        if (slowTimer <= 0f)
+            slowMultiplier = 1f;
     }
 }

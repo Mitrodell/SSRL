@@ -36,7 +36,7 @@ public sealed class RangedEnemy : Enemy
 
         Vector3 dir = seek + separation;
         if (dir.sqrMagnitude > 0.001f)
-            desiredVelocity = dir.normalized * MoveSpeed;
+            desiredVelocity = dir.normalized * EffectiveMoveSpeed;
 
         // стрельба
         if (dist <= shootRange && shootCd <= 0f && projectilePrefab != null && shootPoint != null)

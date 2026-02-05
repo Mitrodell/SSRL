@@ -7,6 +7,10 @@ public sealed class MeleeSplashWeapon : WeaponBase
     [SerializeField] private float angle = 90f;
     [SerializeField] private LayerMask enemyMask;
 
+    [Header("Skill: Leap")]
+    [SerializeField] private float leapDistance = 20f;
+    [SerializeField] private LayerMask leapBlockMask = ~0;
+
     private readonly Collider[] hits = new Collider[32];
 
     private void Awake()
@@ -40,6 +44,30 @@ public sealed class MeleeSplashWeapon : WeaponBase
                 e.TakeDamage(damage);
         }
     }
+
+    protected override void OnUseSkill(AimContext aim)
+    {
+        if (aim.owner == null) return;
+
+        Vector3 forward = aim.owner.forward;
+        forward.y = 0f;
+        if (forward.sqrMagnitude < 0.0001f) return;
+        forward.Normalize();
+
+        Vector3 start = aim.owner.position + Vector3.up * 0.6f;
+        float travel = leapDistance;
+
+        if (Physics.Raycast(start, forward, out RaycastHit hit, leapDistance, leapBlockMask, QueryTriggerInteraction.Ignore))
+            travel = Mathf.Max(0f, hit.distance - 0.5f);
+
+        Vector3 dash = forward * travel;
+        CharacterController cc = aim.owner.GetComponent<CharacterController>();
+        if (cc != null)
+            cc.Move(dash);
+        else
+            aim.owner.position += dash;
+    }
+
     public void AddRadius(float add) => radius = Mathf.Max(0f, radius + add);
     public void AddAngle(float add) => angle = Mathf.Clamp(angle + add, 10f, 240f);
 

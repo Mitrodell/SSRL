@@ -8,6 +8,6 @@ public sealed class MeleeEnemy : Enemy
         Vector3 dir = seek + separation;
 
         if (dir.sqrMagnitude > 0.001f)
-            desiredVelocity = dir.normalized * MoveSpeed;
+            desiredVelocity = dir.normalized * EffectiveMoveSpeed;
     }
 }

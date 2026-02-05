@@ -16,6 +16,7 @@ public sealed class WeaponSystem : MonoBehaviour
 
     [Header("Input")]
     [SerializeField] private InputActionReference attackAction;
+    [SerializeField] private InputActionReference skillAction;
     [SerializeField] private InputActionReference selectMeleeAction;
     [SerializeField] private InputActionReference selectGunAction;
     [SerializeField] private InputActionReference selectBeamAction;
@@ -49,6 +50,7 @@ public sealed class WeaponSystem : MonoBehaviour
     private void OnEnable()
     {
         attackAction?.action?.Enable();
+        skillAction?.action?.Enable();
         selectMeleeAction?.action?.Enable();
         selectGunAction?.action?.Enable();
         selectBeamAction?.action?.Enable();
@@ -57,6 +59,7 @@ public sealed class WeaponSystem : MonoBehaviour
     private void OnDisable()
     {
         attackAction?.action?.Disable();
+        skillAction?.action?.Disable();
         selectMeleeAction?.action?.Disable();
         selectGunAction?.action?.Disable();
         selectBeamAction?.action?.Disable();
@@ -80,11 +83,13 @@ public sealed class WeaponSystem : MonoBehaviour
         if (WasPressed(selectGunAction)) Equip(gunWeapon);
         if (WasPressed(selectBeamAction)) Equip(beamWeapon);
 
+        AimContext aim = BuildAimContext();
+
+        if (WasPressed(skillAction))
+            currentWeapon.UseSkill(aim);
+
         if (IsPressed(attackAction))
-        {
-            AimContext aim = BuildAimContext();
             currentWeapon.Fire(aim);
-        }
     }
 
     public void Equip(WeaponBase weapon)

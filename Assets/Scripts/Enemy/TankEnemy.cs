@@ -10,6 +10,6 @@ public sealed class TankEnemy : Enemy
         Vector3 dir = seek + separation;
 
         if (dir.sqrMagnitude > 0.001f)
-            desiredVelocity = dir.normalized * MoveSpeed; // сам speed выставь ниже на префабе
+            desiredVelocity = dir.normalized * EffectiveMoveSpeed; // сам speed выставь ниже на префабе
     }
 }
