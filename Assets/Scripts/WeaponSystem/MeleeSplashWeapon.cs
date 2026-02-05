@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public sealed class MeleeSplashWeapon : WeaponBase
 {
@@ -9,9 +10,17 @@ public sealed class MeleeSplashWeapon : WeaponBase
 
     [Header("Skill: Leap")]
     [SerializeField] private float leapDistance = 20f;
+    [SerializeField] private float leapDuration = 0.35f;
+    [SerializeField] private float leapHeight = 2.5f;
+    [SerializeField] private AnimationCurve leapArc = new AnimationCurve(
+        new Keyframe(0f, 0f),
+        new Keyframe(0.5f, 1f),
+        new Keyframe(1f, 0f)
+    );
     [SerializeField] private LayerMask leapBlockMask = ~0;
 
     private readonly Collider[] hits = new Collider[32];
+    private Coroutine leapRoutine;
 
     private void Awake()
     {
@@ -60,12 +69,45 @@ public sealed class MeleeSplashWeapon : WeaponBase
         if (Physics.Raycast(start, forward, out RaycastHit hit, leapDistance, leapBlockMask, QueryTriggerInteraction.Ignore))
             travel = Mathf.Max(0f, hit.distance - 0.5f);
 
-        Vector3 dash = forward * travel;
-        CharacterController cc = aim.owner.GetComponent<CharacterController>();
+        Vector3 target = aim.owner.position + forward * travel;
+
+        if (leapRoutine != null)
+            StopCoroutine(leapRoutine);
+
+        leapRoutine = StartCoroutine(PerformLeap(aim.owner, target));
+    }
+
+    private IEnumerator PerformLeap(Transform owner, Vector3 target)
+    {
+        Vector3 start = owner.position;
+        float duration = Mathf.Max(0.01f, leapDuration);
+
+        CharacterController cc = owner.GetComponent<CharacterController>();
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+
+            Vector3 horizontal = Vector3.Lerp(start, target, t);
+            float verticalOffset = leapArc.Evaluate(t) * leapHeight;
+            Vector3 desired = horizontal + Vector3.up * verticalOffset;
+
+            if (cc != null)
+                cc.Move(desired - owner.position);
+            else
+                owner.position = desired;
+
+            yield return null;
+        }
+
         if (cc != null)
-            cc.Move(dash);
+            cc.Move(target - owner.position);
         else
-            aim.owner.position += dash;
+            owner.position = target;
+
+        leapRoutine = null;
     }
 
     public void AddRadius(float add) => radius = Mathf.Max(0f, radius + add);
