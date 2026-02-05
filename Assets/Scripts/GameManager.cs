@@ -79,7 +79,10 @@ public sealed class GameManager : MonoBehaviour
     }
 
     public void EnemyKilled(Enemy enemy)
-    {    }
+    {
+        if (player == null || enemy == null) return;
+        player.AddExperience(enemy.ExperienceDrop);
+    }
 
     private void NextWave()
     {
