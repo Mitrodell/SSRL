@@ -150,8 +150,8 @@ public sealed class HUDController : MonoBehaviour
         if (weaponText == null) return;
 
         string name = "-";
-        if (weaponSystem != null && weaponSystem.Current != null)
-            name = weaponSystem.Current.WeaponName;
+        if (weaponSystem != null && weaponSystem.CurrentWeapon != null)
+            name = weaponSystem.CurrentWeapon.WeaponName;
 
         if (name != lastWeaponName)
         {

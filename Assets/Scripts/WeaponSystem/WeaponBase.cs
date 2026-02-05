@@ -2,9 +2,9 @@ using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour, IWeapon
 {
-    [SerializeField] protected string weaponName = "Weapon";
     [SerializeField] protected float damage = 10f;
     [SerializeField] protected float fireRate = 2f; // раз/сек
+    protected string weaponName = "Weapon";
 
     protected float cd;
 

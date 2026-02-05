@@ -20,12 +20,12 @@ public sealed class WeaponSystem : MonoBehaviour
     [SerializeField] private InputActionReference selectGunAction;
     [SerializeField] private InputActionReference selectBeamAction;
 
-    private WeaponBase current;
+    private WeaponBase currentWeapon;
     private PlayerStats stats;
     private readonly System.Collections.Generic.List<WeaponBase> weapons = new System.Collections.Generic.List<WeaponBase>(3);
     private int currentIndex;
 
-    public WeaponBase Current => current;
+    public WeaponBase CurrentWeapon => currentWeapon;
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public sealed class WeaponSystem : MonoBehaviour
         if (weapons.Count > 0)
         {
             currentIndex = Mathf.Clamp(currentIndex, 0, weapons.Count - 1);
-            current = weapons[currentIndex];
+            currentWeapon = weapons[currentIndex];
         }
         else
         {
@@ -70,11 +70,11 @@ public sealed class WeaponSystem : MonoBehaviour
         if (stats != null && stats.IsDead)
             return;
 
-        if (current == null)
+        if (currentWeapon == null)
             return;
 
         float dt = Time.deltaTime;
-        current.Tick(dt);
+        currentWeapon.Tick(dt);
 
         if (WasPressed(selectMeleeAction)) Equip(meleeWeapon);
         if (WasPressed(selectGunAction)) Equip(gunWeapon);
@@ -83,17 +83,17 @@ public sealed class WeaponSystem : MonoBehaviour
         if (IsPressed(attackAction))
         {
             AimContext aim = BuildAimContext();
-            current.Fire(aim);
+            currentWeapon.Fire(aim);
         }
     }
 
     public void Equip(WeaponBase weapon)
     {
         if (weapon == null) return;
-        if (weapon == current) return;
+        if (weapon == currentWeapon) return;
 
-        current = weapon;
-        int index = weapons.IndexOf(current);
+        currentWeapon = weapon;
+        int index = weapons.IndexOf(currentWeapon);
         if (index >= 0) currentIndex = index;
     }
 

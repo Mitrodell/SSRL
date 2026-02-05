@@ -4,11 +4,15 @@ public sealed class MeleeSplashWeapon : WeaponBase
 {
     [Header("Melee")]
     [SerializeField] private float radius = 3f;
-    [SerializeField] private float angle = 90f;      // сектор перед игроком
+    [SerializeField] private float angle = 90f;
     [SerializeField] private LayerMask enemyMask;
 
     private readonly Collider[] hits = new Collider[32];
 
+    private void Awake()
+    {
+        weaponName = "Sword";
+    }
 
     protected override void OnFire(AimContext aim)
     {

@@ -5,10 +5,15 @@ public sealed class PiercingBeamWeapon : WeaponBase
     [Header("Beam")]
     [SerializeField] private float range = 60f;
     [SerializeField] private int maxHits = 6;
-    [SerializeField] private LayerMask hitMask; // Enemy + Default (стены) — если хочешь, чтобы луч стопорился
+    [SerializeField] private LayerMask hitMask;
     [SerializeField] private bool stopOnWall = true;
 
     private RaycastHit[] hits = new RaycastHit[32];
+
+    private void Awake()
+    {
+        weaponName = "Laser";
+    }
 
     protected override void OnFire(AimContext aim)
     {

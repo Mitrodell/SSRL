@@ -5,10 +5,15 @@ public sealed class ProjectileWeapon : WeaponBase
     [Header("Projectile")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float projectileSpeed = 18f;
-    [SerializeField] private bool pierce = false; // <-- ДОБАВИЛИ
+    [SerializeField] private bool pierce = false;
 
     public void SetPierce(bool on) => pierce = on;
     public void MulProjectileSpeed(float mul) => projectileSpeed = Mathf.Max(0f, projectileSpeed * mul);
+
+    private void Awake()
+    {
+        weaponName = "Gun";
+    }
 
     protected override void OnFire(AimContext aim)
     {

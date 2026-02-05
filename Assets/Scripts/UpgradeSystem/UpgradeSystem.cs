@@ -116,9 +116,9 @@ public static class UpgradeSystem
         if (ps == null) return;
 
         WeaponSystem ws = ps.GetComponent<WeaponSystem>();
-        if (ws == null || ws.Current == null) return;
+        if (ws == null || ws.CurrentWeapon == null) return;
 
-        act(ws.Current);
+        act(ws.CurrentWeapon);
     }
 
     private static void WithWeapon<T>(PlayerStats ps, System.Action<T> act) where T : WeaponBase
