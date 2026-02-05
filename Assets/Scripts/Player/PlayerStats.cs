@@ -13,9 +13,9 @@ public sealed class PlayerStats : MonoBehaviour
 
     [Header("Progression")]
     [SerializeField] private int level = 1;
-    [SerializeField] private float currentExperience = 0f;
-    [SerializeField] private float experienceToNextLevel = 50f;
-    [SerializeField] private float experienceGrowthPerLevel = 1.25f;
+    [SerializeField] private float currentExperience;
+    [SerializeField] private float experienceToNextLevel = 5f;
+    [SerializeField] private float experienceGrowthPerLevel = 1.35f;
 
     // --- Public read-only ---
     public float maxHpValue => maxHp;
@@ -28,12 +28,6 @@ public sealed class PlayerStats : MonoBehaviour
     public int Level => level;
     public float CurrentExperience => currentExperience;
     public float ExperienceToNextLevel => experienceToNextLevel;
-    public float ExperienceProgress01 => experienceToNextLevel > 0f ? Mathf.Clamp01(currentExperience / experienceToNextLevel) : 1f;
-
-    public int Level => level;
-    public float Experience => experience;
-    public float ExpToNextLevel => expToNextLevel;
-
     public event Action<int> OnLevelUp;
 
     // --- Upgrades tracking ---
@@ -50,24 +44,11 @@ public sealed class PlayerStats : MonoBehaviour
         maxHp = Mathf.Max(1f, maxHp);
         hp = Mathf.Clamp(hp, 0f, maxHp);
         moveSpeed = Mathf.Max(0f, moveSpeed);
+
         level = Mathf.Max(1, level);
+        currentExperience = Mathf.Max(0f, currentExperience);
         experienceToNextLevel = Mathf.Max(1f, experienceToNextLevel);
-        experienceGrowthPerLevel = Mathf.Max(1f, experienceGrowthPerLevel);
-        currentExperience = Mathf.Clamp(currentExperience, 0f, experienceToNextLevel);
-    }
-
-    public void AddExperience(float amount)
-    {
-        if (IsDead) return;
-        if (amount <= 0f) return;
-
-        currentExperience += amount;
-
-        while (currentExperience >= experienceToNextLevel)
-        {
-            currentExperience -= experienceToNextLevel;
-            LevelUp();
-        }
+        experienceGrowthPerLevel = Mathf.Max(1.05f, experienceGrowthPerLevel);
     }
 
     public void TakeDamage(float amount)
@@ -90,18 +71,17 @@ public sealed class PlayerStats : MonoBehaviour
 
         hp = Mathf.Min(maxHp, hp + amount);
     }
-
     public void AddExperience(float amount)
     {
         if (amount <= 0f) return;
 
-        experience += amount;
+        currentExperience += amount;
 
-        while (experience >= expToNextLevel)
+        while (currentExperience >= experienceToNextLevel)
         {
-            experience -= expToNextLevel;
+            currentExperience -= experienceToNextLevel;
             level++;
-            expToNextLevel = Mathf.Ceil(expToNextLevel * expGrowthPerLevel);
+            experienceToNextLevel = Mathf.Ceil(experienceToNextLevel * experienceGrowthPerLevel);
             OnLevelUp?.Invoke(level);
         }
     }
@@ -117,11 +97,5 @@ public sealed class PlayerStats : MonoBehaviour
     public void AddMoveSpeed(float add)
     {
         moveSpeed = Mathf.Max(0f, moveSpeed + add);
-    }
-
-    private void LevelUp()
-    {
-        level++;
-        experienceToNextLevel = Mathf.Max(1f, experienceToNextLevel * experienceGrowthPerLevel);
     }
 }

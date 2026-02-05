@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public sealed class HUDController : MonoBehaviour
 {
@@ -28,9 +29,9 @@ public sealed class HUDController : MonoBehaviour
     private int lastWave = int.MinValue;
     private string lastWeaponName = null;
     private int lastLevel = int.MinValue;
-    private int lastExp = int.MinValue;
-    private int lastExpToNext = int.MinValue;
-    private float shownFill = 1f;
+    private float lastExp = int.MinValue;
+    private float lastExpToNext = int.MinValue;
+    private float shownHpFill = 1f;
     private float shownExpFill = 0f;
 
     private void Awake()
@@ -38,7 +39,7 @@ public sealed class HUDController : MonoBehaviour
         if (player == null) player = FindFirstObjectByType<PlayerStats>();
         if (weaponSystem == null) weaponSystem = FindFirstObjectByType<WeaponSystem>();
         if (hpFillImage != null)
-            shownFill = hpFillImage.fillAmount;
+            shownHpFill = hpFillImage.fillAmount;
         if (expFillImage != null)
             shownExpFill = expFillImage.fillAmount;
     }
@@ -75,13 +76,13 @@ public sealed class HUDController : MonoBehaviour
 
             if (smoothBar)
             {
-                shownFill = Mathf.Lerp(shownFill, target, barLerpSpeed * Time.deltaTime);
-                hpFillImage.fillAmount = shownFill;
+                shownHpFill = Mathf.Lerp(shownHpFill, target, barLerpSpeed * Time.deltaTime);
+                hpFillImage.fillAmount = shownHpFill;
             }
             else
             {
-                shownFill = target;
-                hpFillImage.fillAmount = shownFill;
+                shownHpFill = target;
+                hpFillImage.fillAmount = shownHpFill;
             }
         }
     }
@@ -115,8 +116,7 @@ public sealed class HUDController : MonoBehaviour
 
         if (expFillImage != null)
         {
-            float target = player.ExperienceProgress01;
-
+            float target = lastExp/lastExpToNext;
             if (smoothBar)
             {
                 shownExpFill = Mathf.Lerp(shownExpFill, target, barLerpSpeed * Time.deltaTime);
