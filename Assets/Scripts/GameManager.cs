@@ -94,10 +94,8 @@ public sealed class GameManager : MonoBehaviour
 
     public void EnemyKilled(Enemy enemy)
     {
-        if (player == null) return;
-
-        float bonus = enemy != null ? enemy.MaxHp * 0.02f : 0f;
-        player.AddExperience(expPerKill + bonus);
+        if (player == null || enemy == null) return;
+        player.AddExperience(enemy.ExperienceDrop);
     }
 
     private void NextWave()
