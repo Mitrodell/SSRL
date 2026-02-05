@@ -49,6 +49,8 @@ public sealed class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
+
         if (upgradePanel != null)
             upgradePanel.SetActive(false);
         SetCursorForUI(false);
@@ -66,6 +68,8 @@ public sealed class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        Time.timeScale = 1f;
+
         if (player != null)
             player.OnLevelUp -= HandlePlayerLevelUp;
     }
@@ -190,6 +194,7 @@ public sealed class GameManager : MonoBehaviour
     private void SetPaused(bool paused)
     {
         IsPaused = paused;
+        Time.timeScale = paused ? 0f : 1f;
         SetCursorForUI(paused);
     }
 
