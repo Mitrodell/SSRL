@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public sealed class PlayerStats : MonoBehaviour
@@ -28,6 +29,12 @@ public sealed class PlayerStats : MonoBehaviour
     public float CurrentExperience => currentExperience;
     public float ExperienceToNextLevel => experienceToNextLevel;
     public float ExperienceProgress01 => experienceToNextLevel > 0f ? Mathf.Clamp01(currentExperience / experienceToNextLevel) : 1f;
+
+    public int Level => level;
+    public float Experience => experience;
+    public float ExpToNextLevel => expToNextLevel;
+
+    public event Action<int> OnLevelUp;
 
     // --- Upgrades tracking ---
     private readonly HashSet<string> takenUpgrades = new HashSet<string>();
@@ -82,6 +89,21 @@ public sealed class PlayerStats : MonoBehaviour
         if (amount <= 0f) return;
 
         hp = Mathf.Min(maxHp, hp + amount);
+    }
+
+    public void AddExperience(float amount)
+    {
+        if (amount <= 0f) return;
+
+        experience += amount;
+
+        while (experience >= expToNextLevel)
+        {
+            experience -= expToNextLevel;
+            level++;
+            expToNextLevel = Mathf.Ceil(expToNextLevel * expGrowthPerLevel);
+            OnLevelUp?.Invoke(level);
+        }
     }
 
     // Апгрейды

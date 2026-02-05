@@ -21,6 +21,9 @@ public sealed class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI btnAText;
     [SerializeField] private TextMeshProUGUI btnBText;
 
+    [Header("Progression")]
+    [SerializeField] private float expPerKill = 1f;
+
     public EnemySpawner Spawner => spawner;
     public PlayerStats Player => player;
 
@@ -28,6 +31,8 @@ public sealed class GameManager : MonoBehaviour
     public bool IsPaused { get; private set; }
 
     private int wave;
+    private int pendingUpgradePicks;
+
     private UpgradeChoice choiceA;
     private UpgradeChoice choiceB;
 
@@ -52,7 +57,16 @@ public sealed class GameManager : MonoBehaviour
         if (waveText == null) Debug.LogWarning("[GameManager] waveText is not assigned.");
         if (hpText == null) Debug.LogWarning("[GameManager] hpText is not assigned.");
 
+        if (player != null)
+            player.OnLevelUp += HandlePlayerLevelUp;
+
         NextWave();
+    }
+
+    private void OnDestroy()
+    {
+        if (player != null)
+            player.OnLevelUp -= HandlePlayerLevelUp;
     }
 
     private void Update()
@@ -61,7 +75,7 @@ public sealed class GameManager : MonoBehaviour
 
         if (!IsPaused && spawner != null && spawner.IsWaveCleared())
         {
-            ShowUpgrades();
+            NextWave();
         }
     }
 
@@ -95,6 +109,14 @@ public sealed class GameManager : MonoBehaviour
             spawner.SpawnWave(wave);
     }
 
+    private void HandlePlayerLevelUp(int newLevel)
+    {
+        pendingUpgradePicks++;
+
+        if (upgradePanel != null && !upgradePanel.activeSelf)
+            ShowUpgrades();
+    }
+
     private void ShowUpgrades()
     {
         if (upgradePanel == null) return;
@@ -111,7 +133,6 @@ public sealed class GameManager : MonoBehaviour
         {
             upgradePanel.SetActive(false);
             SetPaused(false);
-            NextWave();
             return;
         }
 
@@ -131,11 +152,10 @@ public sealed class GameManager : MonoBehaviour
         }
     }
 
-
     private void Pick(UpgradeChoice choice)
     {
         if (choice.oneTime && !player.TryTakeUpgrade(choice.id))
-        return;
+            return;
 
         if (player != null)
             choice.apply(player);
@@ -143,8 +163,15 @@ public sealed class GameManager : MonoBehaviour
         if (upgradePanel != null)
             upgradePanel.SetActive(false);
 
+        pendingUpgradePicks = Mathf.Max(0, pendingUpgradePicks - 1);
+
+        if (pendingUpgradePicks > 0)
+        {
+            ShowUpgrades();
+            return;
+        }
+
         SetPaused(false);
-        NextWave();
     }
 
     public void PlayerDied()
@@ -177,6 +204,8 @@ public sealed class GameManager : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
+        expPerKill = Mathf.Max(0.1f, expPerKill);
+
         if (upgradePanel != null && (btnA == null || btnB == null || btnAText == null || btnBText == null))
         {
 
