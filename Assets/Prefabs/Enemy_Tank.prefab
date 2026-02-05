@@ -231,11 +231,11 @@ MonoBehaviour:
   moveSpeed: 3.5
   touchDamage: 10
   rotationSpeed: 540
-  separationRadius: 1.2
+  separationRadius: 0.8
   separationStrength: 2.2
   enemyMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   drawGizmos: 0
   currentHp: 0
 --- !u!114 &9150000000000000003

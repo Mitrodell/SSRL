@@ -544,6 +544,9 @@ MonoBehaviour:
   hpText: {fileID: 1067501414}
   waveText: {fileID: 2025151657}
   weaponText: {fileID: 1851566273}
+  hpFillImage: {fileID: 923870629}
+  smoothBar: 1
+  barLerpSpeed: 12
 --- !u!1 &307374590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1255,8 +1258,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0

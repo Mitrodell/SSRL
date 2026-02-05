@@ -9,12 +9,12 @@ public sealed class WeaponSystem : MonoBehaviour
     [SerializeField] private LayerMask aimMask;
     [SerializeField] private float aimMaxDistance = 120f;
 
-    [Header("Weapons (components on this object or children)")]
+    [Header("Weapons")]
     [SerializeField] private WeaponBase meleeWeapon;
     [SerializeField] private WeaponBase gunWeapon;
     [SerializeField] private WeaponBase beamWeapon;
 
-    [Header("Input (New Input System)")]
+    [Header("Input")]
     [SerializeField] private InputActionReference attackAction;
     [SerializeField] private InputActionReference selectMeleeAction;
     [SerializeField] private InputActionReference selectGunAction;
@@ -76,12 +76,10 @@ public sealed class WeaponSystem : MonoBehaviour
         float dt = Time.deltaTime;
         current.Tick(dt);
 
-        // Переключение оружия
         if (WasPressed(selectMeleeAction)) Equip(meleeWeapon);
         if (WasPressed(selectGunAction)) Equip(gunWeapon);
         if (WasPressed(selectBeamAction)) Equip(beamWeapon);
 
-        // Огонь
         if (IsPressed(attackAction))
         {
             AimContext aim = BuildAimContext();

@@ -161,7 +161,7 @@ MonoBehaviour:
   moveSpeed: 3.5
   touchDamage: 10
   rotationSpeed: 540
-  separationRadius: 1.2
+  separationRadius: 0.8
   separationStrength: 2.2
   enemyMask:
     serializedVersion: 2
