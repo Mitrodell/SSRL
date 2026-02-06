@@ -29,7 +29,6 @@ public abstract class Enemy : MonoBehaviour
     private float slowMultiplier = 1f;
     private float slowTimer;
 
-    // movement “intent” computed in Update, applied in FixedUpdate
     protected Vector3 desiredVelocity;
     protected Quaternion desiredRotation;
     protected bool hasRotation;
@@ -81,7 +80,7 @@ public abstract class Enemy : MonoBehaviour
         }
 
         Vector3 sep = ComputeSeparation();
-        TickAI(to, sep); // <-- поведение конкретного врага
+        TickAI(to, sep);
     }
 
     protected virtual void FixedUpdate()
@@ -98,7 +97,6 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    /// <summary>Логика конкретного врага: задать desiredVelocity и (опционально) стрелять.</summary>
     protected abstract void TickAI(Vector3 toPlayerFlat, Vector3 separation);
 
     protected Vector3 ComputeSeparation()
@@ -116,8 +114,7 @@ public abstract class Enemy : MonoBehaviour
             Collider c = sepHits[i];
             if (c == null) continue;
 
-            // Важно: если DamageTrigger попадает в маску, лучше выставить ему другой слой.
-            Transform t = c.transform.root; // root снижает “двойной вес” дочерних коллайдеров
+            Transform t = c.transform.root;
             if (t == transform) continue;
 
             Vector3 away = transform.position - t.position;

@@ -671,9 +671,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileWeapon
   damage: 10
   fireRate: 2
+  skillCooldown: 1
   projectilePrefab: {fileID: 8853205100827025027, guid: 58d57aab2c1ac48449f94194d4e8cf2e, type: 3}
   projectileSpeed: 18
   pierce: 0
+  fanProjectiles: 7
+  fanAngle: 45
+  fanSpeedMultiplier: 1.15
 --- !u!114 &324460602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1305,6 +1309,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_ActionId: b31bab3c-3f9f-4802-a5b1-cbedce10ccd4
+--- !u!114 &818252650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player/UseSkill
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 157bf14c-badd-4e46-a666-ad279e6ab4a4
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1529,11 +1547,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeleeSplashWeapon
   damage: 10
   fireRate: 2
+  skillCooldown: 1
   radius: 3
   angle: 90
   enemyMask:
     serializedVersion: 2
     m_Bits: 8
+  leapDistance: 20
+  leapDuration: 0.35
+  leapHeight: 2.5
+  leapArc:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.75416565
+      value: 0.98809433
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  leapBlockMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &1067501412
 GameObject:
   m_ObjectHideFlags: 0
@@ -2189,6 +2247,7 @@ MonoBehaviour:
   gunWeapon: {fileID: 307374592}
   beamWeapon: {fileID: 2005103162}
   attackAction: {fileID: 2035749942}
+  skillAction: {fileID: 818252650}
   selectMeleeAction: {fileID: 761521856}
   selectGunAction: {fileID: 1891118779}
   selectBeamAction: {fileID: 1578674983}
@@ -3264,12 +3323,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PiercingBeamWeapon
   damage: 10
   fireRate: 2
+  skillCooldown: 1
   range: 60
   maxHits: 6
   hitMask:
     serializedVersion: 2
     m_Bits: 8
   stopOnWall: 1
+  puddleRadius: 3
+  puddleDuration: 4
+  puddleSlowMultiplier: 0.45
+  puddleEnemyMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!4 &2005103163
 Transform:
   m_ObjectHideFlags: 0
