@@ -7,7 +7,6 @@ public sealed class PiercingBeamWeapon : WeaponBase
     [SerializeField] private int maxHits = 6;
     [SerializeField] private LayerMask hitMask;
     [SerializeField] private bool stopOnWall = true;
-    [SerializeField] private float dps = 40f;
     [SerializeField] private LaserBeamVFX beamVfx;
 
     [Header("Skill: Slow Puddle")]
@@ -19,6 +18,7 @@ public sealed class PiercingBeamWeapon : WeaponBase
 
     private RaycastHit[] hits = new RaycastHit[32];
     private float vfxHoldTimer;
+    protected override bool UseFireCooldown => false;
 
     private void Awake()
     {
@@ -76,7 +76,7 @@ public sealed class PiercingBeamWeapon : WeaponBase
             }
 
             int damaged = 0;
-            float dmgThisFrame = dps * Time.deltaTime;
+            float dmgThisFrame = damage * Time.deltaTime;
 
             for (int i = 0; i < count; i++)
             {

@@ -23,8 +23,9 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
 
     public void Fire(AimContext aim)
     {
-        if (!CanFire) return;
-        shootCooldown = 1f / Mathf.Max(0.0001f, fireRate);
+        if (UseFireCooldown && !CanFire) return;
+        if (UseFireCooldown)
+            shootCooldown = 1f / Mathf.Max(0.0001f, fireRate);
         OnFire(aim);
     }
 
@@ -35,7 +36,7 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
         currentSkillCooldown = Mathf.Max(0f, skillCooldown);
         OnUseSkill(aim);
     }
-
+    protected virtual bool UseFireCooldown => true;
     protected abstract void OnFire(AimContext aim);
 
     protected virtual void OnUseSkill(AimContext aim) { }
