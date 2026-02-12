@@ -32,7 +32,6 @@ public sealed class PiercingBeamWeapon : WeaponBase
         int count = Physics.RaycastNonAlloc(start, dir, hits, range, hitMask, QueryTriggerInteraction.Ignore);
         if (count <= 0) return;
 
-        // сортируем по дистанции (RaycastNonAlloc может вернуть неупорядоченно)
         System.Array.Sort(hits, 0, count, new HitDistanceComparer());
 
         int damaged = 0;
@@ -41,7 +40,6 @@ public sealed class PiercingBeamWeapon : WeaponBase
             var h = hits[i];
             if (h.collider == null) continue;
 
-            // если попали в стену и нужно остановиться
             if (stopOnWall && h.collider.GetComponentInParent<Enemy>() == null)
                 break;
 

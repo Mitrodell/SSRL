@@ -5,7 +5,6 @@ public static class UpgradeSystem
 {
     private static readonly List<UpgradeChoice> all = new List<UpgradeChoice>
     {
-        // --- Player ---
         new UpgradeChoice {
             id = "hp_max_20",
             title = "+20 Max HP",
@@ -25,7 +24,7 @@ public static class UpgradeSystem
             oneTime=false
         },
 
-        // --- Global weapon (applies to current weapon) ---
+        // Global weapon
         new UpgradeChoice {
             id = "weapon_damage_20p",
             title = "+20% Weapon Damage",
@@ -39,7 +38,7 @@ public static class UpgradeSystem
             oneTime=false
         },
 
-        // --- Melee weapon specific ---
+        // Melee weapon
         new UpgradeChoice {
             id = "melee_radius_up",
             title = "Melee: +0.4 Radius",
@@ -59,7 +58,7 @@ public static class UpgradeSystem
             oneTime=false,
         },
 
-        // --- Gun weapon specific ---
+        // Gun weapon
         new UpgradeChoice {
             id = "gun_proj_speed_up",
             title = "Gun: +20% Bullet Speed",
@@ -73,7 +72,7 @@ public static class UpgradeSystem
             oneTime=true
         },
 
-        // --- Beam weapon specific ---
+        //Beam weapon
         new UpgradeChoice {
             id = "beam_range_up",
             title = "Beam: +25% Range",
@@ -110,7 +109,6 @@ public static class UpgradeSystem
         return available[Random.Range(0, available.Count)];
     }
 
-    // --- Helpers ---
     private static void WithCurrentWeapon(PlayerStats ps, System.Action<WeaponBase> act)
     {
         if (ps == null) return;

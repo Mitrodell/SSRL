@@ -6,7 +6,7 @@ public sealed class EnemySpawner : MonoBehaviour
     [Header("Spawn Points")]
     [SerializeField] private Transform[] spawnPoints;
 
-    [Header("Enemy Prefabs (root has Enemy child-class)")]
+    [Header("Enemy Prefabs")]
     [SerializeField] private GameObject meleePrefab;
     [SerializeField] private GameObject rangedPrefab;
     [SerializeField] private GameObject tankPrefab;

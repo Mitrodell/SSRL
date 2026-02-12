@@ -33,7 +33,6 @@ public abstract class Enemy : MonoBehaviour
     protected Quaternion desiredRotation;
     protected bool hasRotation;
 
-    // --- Public API ---
     public float MaxHp => maxHp;
     public float CurrentHp => currentHp;
     public float MoveSpeed => moveSpeed;

@@ -17,7 +17,6 @@ public sealed class PlayerStats : MonoBehaviour
     [SerializeField] private float experienceToNextLevel = 5f;
     [SerializeField] private float experienceGrowthPerLevel = 1.35f;
 
-    // --- Public read-only ---
     public float maxHpValue => maxHp;
     public float hpValue => hp;
 
@@ -30,7 +29,7 @@ public sealed class PlayerStats : MonoBehaviour
     public float ExperienceToNextLevel => experienceToNextLevel;
     public event Action<int> OnLevelUp;
 
-    // --- Upgrades tracking ---
+    // Upgrades
     private readonly HashSet<string> takenUpgrades = new HashSet<string>();
     public bool HasUpgrade(string id) => !string.IsNullOrEmpty(id) && takenUpgrades.Contains(id);
     public bool TryTakeUpgrade(string id)
@@ -86,7 +85,6 @@ public sealed class PlayerStats : MonoBehaviour
         }
     }
 
-    // Апгрейды
     public void AddMaxHp(float add)
     {
         if (add <= 0f) return;

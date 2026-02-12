@@ -7,7 +7,7 @@ public sealed class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [Header("Refs")]
+    [Header("References")]
     [SerializeField] private EnemySpawner spawner;
     [SerializeField] private PlayerStats player;
 
@@ -20,9 +20,6 @@ public sealed class GameManager : MonoBehaviour
     [SerializeField] private Button btnB;
     [SerializeField] private TextMeshProUGUI btnAText;
     [SerializeField] private TextMeshProUGUI btnBText;
-
-    [Header("Progression")]
-    [SerializeField] private float expPerKill = 1f;
 
     public EnemySpawner Spawner => spawner;
     public PlayerStats Player => player;
@@ -226,16 +223,4 @@ public sealed class GameManager : MonoBehaviour
             Cursor.visible = false;
         }
     }
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        expPerKill = Mathf.Max(0.1f, expPerKill);
-
-        if (upgradePanel != null && (btnA == null || btnB == null || btnAText == null || btnBText == null))
-        {
-
-        }
-    }
-#endif
 }

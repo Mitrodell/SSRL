@@ -2,7 +2,7 @@ using UnityEngine;
 
 public sealed class TankEnemy : Enemy
 {
-    // Можно переопределить ApplyWaveScaling если хочешь, чтобы танки сильнее росли
+    // need override ApplyWaveScaling
 
     protected override void TickAI(Vector3 toPlayerFlat, Vector3 separation)
     {
@@ -10,6 +10,6 @@ public sealed class TankEnemy : Enemy
         Vector3 dir = seek + separation;
 
         if (dir.sqrMagnitude > 0.001f)
-            desiredVelocity = dir.normalized * EffectiveMoveSpeed; // сам speed выставь ниже на префабе
+            desiredVelocity = dir.normalized * EffectiveMoveSpeed;
     }
 }

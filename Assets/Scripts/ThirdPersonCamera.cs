@@ -13,12 +13,12 @@ public sealed class ThirdPersonCamera : MonoBehaviour
 
     [Header("Rotation")]
     [SerializeField] private InputActionReference lookAction;
-    [SerializeField] private float sensitivity = 180f; // deg/sec
+    [SerializeField] private float sensitivity = 180f;
     [SerializeField] private float pitchMin = -35f;
     [SerializeField] private float pitchMax = 70f;
 
     [Header("Smoothing")]
-    [SerializeField] private float followSmooth = 14f;  // больше = быстрее догоняет
+    [SerializeField] private float followSmooth = 14f;
     [SerializeField] private float rotateSmooth = 18f;
 
     [Header("Collision (optional)")]

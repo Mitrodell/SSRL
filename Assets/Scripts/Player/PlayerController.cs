@@ -7,6 +7,7 @@ public sealed class PlayerController : MonoBehaviour
     [Header("Refs")]
     [SerializeField] private Transform cameraRoot;
     [SerializeField] private PlayerStats stats;
+    [SerializeField] private Animator animator;
 
     [Header("Move")]
     [SerializeField] private float moveSpeedFallback = 6f;
@@ -19,9 +20,14 @@ public sealed class PlayerController : MonoBehaviour
     [Header("Ground")]
     [SerializeField] private float groundStickForce = -2f;
 
+    [Header("Animator params")]
+    [SerializeField] private string animMoveX = "MoveX";
+    [SerializeField] private string animMoveY = "MoveY";
+
     private CharacterController cc;
     private Rigidbody rb;
     private Vector3 verticalVel;
+    private Vector3 lastMoveDirWorld;
 
     private void Awake()
     {
@@ -38,6 +44,12 @@ public sealed class PlayerController : MonoBehaviour
 
         if (stats == null)
             stats = GetComponent<PlayerStats>();
+
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        if (animator != null)
+            animator.applyRootMotion = false;
     }
 
     private void OnEnable()
@@ -58,6 +70,7 @@ public sealed class PlayerController : MonoBehaviour
 
         HandleMove();
         HandleLook();
+        UpdateAnimator();
     }
 
     private void HandleMove()
@@ -79,6 +92,7 @@ public sealed class PlayerController : MonoBehaviour
         moveDir = Vector3.ClampMagnitude(moveDir, 1f);
 
         if (moveDir.sqrMagnitude > 0.0001f) moveDir.Normalize();
+        lastMoveDirWorld = moveDir;
 
         float speed = (stats != null) ? stats.MoveSpeed : moveSpeedFallback;
         Vector3 horizontal = moveDir * speed;
@@ -104,13 +118,16 @@ public sealed class PlayerController : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.LookRotation(camF.normalized, Vector3.up);
 
-        if (rb != null)
-        {
-            rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, targetRotation, rotationSpeed * Time.deltaTime));
-        }
-        else
-        {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+    private void UpdateAnimator()
+    {
+        if (animator == null)
+            return;
+
+        Vector3 moveLocal = transform.InverseTransformDirection(lastMoveDirWorld);
+
+        animator.SetFloat(animMoveX, moveLocal.x, 0.08f, Time.deltaTime);
+        animator.SetFloat(animMoveY, moveLocal.z, 0.08f, Time.deltaTime);
     }
 }

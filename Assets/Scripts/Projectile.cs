@@ -9,10 +9,10 @@ public enum ProjectileTarget
 public class Projectile : MonoBehaviour
 {
     [Header("Stats")]
-    public float speed = 18f;
-    public float damage = 10f;
-    public bool pierce = false;
-    public float life = 3f;
+    [SerializeField] private float speed = 18f;
+    [SerializeField] private float damage = 10f;
+    [SerializeField] private bool pierce = false;
+    [SerializeField] private float life = 3f;
 
     [Header("Targeting")]
     public ProjectileTarget target = ProjectileTarget.Enemy;

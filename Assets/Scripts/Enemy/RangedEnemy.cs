@@ -29,7 +29,6 @@ public sealed class RangedEnemy : Enemy
 
         float dist = toPlayerFlat.magnitude;
 
-        // держим дистанцию
         Vector3 seek = Vector3.zero;
         if (dist > maxDistance) seek = toPlayerFlat.normalized;
         else if (dist < minDistance) seek = -toPlayerFlat.normalized;
@@ -38,7 +37,6 @@ public sealed class RangedEnemy : Enemy
         if (dir.sqrMagnitude > 0.001f)
             desiredVelocity = dir.normalized * EffectiveMoveSpeed;
 
-        // стрельба
         if (dist <= shootRange && shootCd <= 0f && projectilePrefab != null && shootPoint != null)
         {
             shootCd = 1f / Mathf.Max(0.0001f, shootRate);
