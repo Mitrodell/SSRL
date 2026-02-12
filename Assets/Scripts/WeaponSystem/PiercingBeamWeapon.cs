@@ -9,10 +9,7 @@ public sealed class PiercingBeamWeapon : WeaponBase
     [SerializeField] private bool stopOnWall = true;
 
     [Header("Skill: Slow Puddle")]
-    [SerializeField] private float puddleRadius = 3f;
-    [SerializeField] private float puddleDuration = 4f;
-    [SerializeField] private float puddleSlowMultiplier = 0.45f;
-    [SerializeField] private LayerMask puddleEnemyMask;
+    [SerializeField] private GameObject puddlePrefab;
 
     private RaycastHit[] hits = new RaycastHit[32];
 
@@ -55,11 +52,7 @@ public sealed class PiercingBeamWeapon : WeaponBase
 
     protected override void OnUseSkill(AimContext aim)
     {
-        GameObject puddle = new GameObject("LaserSlowPuddle");
-        puddle.transform.position = aim.aimPoint;
-
-        SlowPuddle slow = puddle.AddComponent<SlowPuddle>();
-        slow.Init(puddleRadius, puddleDuration, puddleSlowMultiplier, puddleEnemyMask);
+        GameObject go = Instantiate(puddlePrefab, aim.aimPoint, Quaternion.identity);
     }
 
     public void MulRange(float mul) => range = Mathf.Max(1f, range * mul);

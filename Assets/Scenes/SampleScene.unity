@@ -3614,6 +3614,10 @@ PrefabInstance:
       propertyPath: selectMeleeAction
       value: 
       objectReference: {fileID: 761521856}
+    - target: {fileID: 6323072425134560821, guid: cb0550cba9248464dbf88b8595f83ec3, type: 3}
+      propertyPath: puddlePrefab
+      value: 
+      objectReference: {fileID: 5103047103869207634, guid: bdfd459742e1cd7489d94eb09d5475e5, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5890238617592749023, guid: cb0550cba9248464dbf88b8595f83ec3, type: 3}
