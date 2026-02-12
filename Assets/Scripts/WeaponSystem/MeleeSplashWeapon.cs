@@ -10,7 +10,7 @@ public sealed class MeleeSplashWeapon : WeaponBase
 
     [Header("Skill: Leap")]
     [SerializeField] private float leapDistance = 20f;
-    [SerializeField] private float leapDuration = 0.35f;
+    [SerializeField] private float leapDuration = 0.5f;
     [SerializeField] private float leapHeight = 2.5f;
     [SerializeField] private AnimationCurve leapArc = new AnimationCurve(
         new Keyframe(0f, 0f),

@@ -7,24 +7,24 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
     [SerializeField] protected float skillCooldown = 8f;
     protected string weaponName = "Weapon";
 
-    protected float cd;
-    protected float skillCd;
+    protected float shootCooldown;
+    protected float currentSkillCooldown;
 
     public string WeaponName => weaponName;
-    public bool CanFire => cd <= 0f;
-    public bool CanUseSkill => skillCd <= 0f;
+    public bool CanFire => shootCooldown <= 0f;
+    public bool CanUseSkill => currentSkillCooldown <= 0f;
     public float FireRate => fireRate;
 
     public virtual void Tick(float dt)
     {
-        cd -= dt;
-        skillCd -= dt;
+        shootCooldown -= dt;
+        currentSkillCooldown -= dt;
     }
 
     public void Fire(AimContext aim)
     {
         if (!CanFire) return;
-        cd = 1f / Mathf.Max(0.0001f, fireRate);
+        shootCooldown = 1f / Mathf.Max(0.0001f, fireRate);
         OnFire(aim);
     }
 
@@ -32,7 +32,7 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
     {
         if (!CanUseSkill) return;
 
-        skillCd = Mathf.Max(0f, skillCooldown);
+        currentSkillCooldown = Mathf.Max(0f, skillCooldown);
         OnUseSkill(aim);
     }
 
@@ -40,7 +40,6 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
 
     protected virtual void OnUseSkill(AimContext aim) { }
 
-    // Для апгрейдов
     public void AddDamage(float add) => damage += add;
     public void MulDamage(float mul) => damage *= mul;
     public void AddFireRate(float add) => fireRate += add;
