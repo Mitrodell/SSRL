@@ -1,0 +1,295 @@
+fileFormatVersion: 2
+guid: 78fa9c2ad00cb43f696f9c37fc88f2f1
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: HPBar_61
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 196
+        width: 578
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee5c95c07d2e541ac8fa46ff06a1c6d2
+      internalID: -206408403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HPBar_62
+      rect:
+        serializedVersion: 2
+        x: 694
+        y: 686
+        width: 578
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c7643eacbc0e4313a369b0f35d9f94b
+      internalID: -1593448408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HPBar_63
+      rect:
+        serializedVersion: 2
+        x: 694
+        y: 520
+        width: 570
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0c894bc73a8046cf9467b115fc5684d
+      internalID: -790170209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HPBar_64
+      rect:
+        serializedVersion: 2
+        x: 694
+        y: 366
+        width: 565
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0885bee3d08f84047a13acbed95374f0
+      internalID: 1524805419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: cb9ce7387a2fc49ff985501ba15c5840
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      HPBar_0: 684138893
+      HPBar_1: -1169328531
+      HPBar_10: 1814457476
+      HPBar_11: 1568706461
+      HPBar_12: -506227733
+      HPBar_13: 750782331
+      HPBar_14: 1033692498
+      HPBar_15: -796221881
+      HPBar_16: -1562487961
+      HPBar_17: 297512728
+      HPBar_18: 2098553410
+      HPBar_19: 874806402
+      HPBar_2: -843905156
+      HPBar_20: 1605899973
+      HPBar_21: 1357972233
+      HPBar_22: -160912273
+      HPBar_23: 1112481550
+      HPBar_24: 1418665389
+      HPBar_25: 140717760
+      HPBar_26: -1062769363
+      HPBar_27: -1510196921
+      HPBar_28: -880419006
+      HPBar_29: 1099068385
+      HPBar_3: 596262145
+      HPBar_30: -1544381655
+      HPBar_31: 1786524636
+      HPBar_32: -1462222274
+      HPBar_33: 558238734
+      HPBar_34: -145692182
+      HPBar_35: -460885938
+      HPBar_36: 1944346849
+      HPBar_37: -176359991
+      HPBar_38: -1318994339
+      HPBar_39: -137040383
+      HPBar_4: -1904463978
+      HPBar_40: -759765524
+      HPBar_41: -1633480953
+      HPBar_42: -263348689
+      HPBar_43: 359482842
+      HPBar_44: -1380111586
+      HPBar_45: 849693228
+      HPBar_46: -1752861079
+      HPBar_47: 584634783
+      HPBar_48: -2009953811
+      HPBar_49: 614422263
+      HPBar_5: 1062329707
+      HPBar_50: 1971714983
+      HPBar_51: -1357626945
+      HPBar_52: 230720326
+      HPBar_53: -1508712292
+      HPBar_54: -1659493996
+      HPBar_55: 448523136
+      HPBar_56: 1029259134
+      HPBar_57: -1921021464
+      HPBar_58: 637660034
+      HPBar_59: 1138577629
+      HPBar_6: -1664799670
+      HPBar_60: -1628952455
+      HPBar_61: -206408403
+      HPBar_62: -1593448408
+      HPBar_63: -790170209
+      HPBar_64: 1524805419
+      HPBar_65: -1062441679
+      HPBar_66: 544112810
+      HPBar_67: -1245651580
+      HPBar_68: 611065983
+      HPBar_69: 2098879646
+      HPBar_7: -1855273960
+      HPBar_70: 1129321403
+      HPBar_71: -348252319
+      HPBar_72: 962131327
+      HPBar_73: 549094455
+      HPBar_74: -893943839
+      HPBar_75: -1856043528
+      HPBar_76: -1113381579
+      HPBar_77: -873621514
+      HPBar_78: -625803247
+      HPBar_79: 846509489
+      HPBar_8: -618151581
+      HPBar_80: -1666602505
+      HPBar_81: 35976806
+      HPBar_82: 974793814
+      HPBar_83: -403954380
+      HPBar_84: -2123432347
+      HPBar_85: -1883898481
+      HPBar_86: -525923081
+      HPBar_87: 1675532051
+      HPBar_9: 692146782
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
