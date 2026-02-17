@@ -11,8 +11,7 @@ public static class UpgradeSystem
             title = "+20 Max HP",
             apply = (ps) => ps.AddMaxHp(20f),
             oneTime= false,
-            iconPath = "Upgrades/max_hp_20"
-        },/*
+        },
         new UpgradeChoice {
             id = "heal_25",
             title = "Heal +25",
@@ -92,7 +91,7 @@ public static class UpgradeSystem
             title = "Beam: +25% Damage",
             apply = (ps) => WithWeapon<PiercingBeamWeapon>(ps, w => w.MulDamage(1.25f)),
             oneTime=false
-        },*/
+        },
     };
 
     public static UpgradeChoice RandomChoice(PlayerStats ps)
