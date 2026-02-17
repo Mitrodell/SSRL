@@ -5,9 +5,6 @@ public sealed class LaserBeamVFX : MonoBehaviour
 {
     [Header("Visual")]
     [SerializeField] private float baseWidth = 0.08f;
-    [SerializeField] private float pulseAmplitude = 0.015f;
-    [SerializeField] private float pulseSpeed = 22f;
-
     [Header("Impact FX (optional)")]
     [SerializeField] private ParticleSystem impactFx;
 

@@ -92,7 +92,7 @@ public sealed class HUDController : MonoBehaviour
     {
         if (player == null)
         {
-            if (levelText != null) levelText.text = "LVL -";
+            if (levelText != null) levelText.text = "-";
             if (experienceText != null) experienceText.text = "EXP -/-";
             return;
         }
@@ -104,7 +104,7 @@ public sealed class HUDController : MonoBehaviour
         if (levelText != null && level != lastLevel)
         {
             lastLevel = level;
-            levelText.text = $"LVL {level}";
+            levelText.text = $"{level}";
         }
 
         if (experienceText != null && (exp != lastExp || expToNext != lastExpToNext))
