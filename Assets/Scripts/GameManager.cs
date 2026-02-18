@@ -18,8 +18,9 @@ public sealed class GameManager : MonoBehaviour
     [SerializeField] private GameObject upgradePanel;
     [SerializeField] private Button btnA;
     [SerializeField] private Button btnB;
-    [SerializeField] private TextMeshProUGUI btnAText;
-    [SerializeField] private TextMeshProUGUI btnBText;
+    [SerializeField] private Image btnAImage;
+    [SerializeField] private Image btnBImage;
+    [SerializeField] private Sprite defaultUpgradeIcon;
 
     public EnemySpawner Spawner => spawner;
     public PlayerStats Player => player;
@@ -99,6 +100,7 @@ public sealed class GameManager : MonoBehaviour
         }
     }
 
+
     public void EnemyKilled(Enemy enemy)
     {
         if (player == null || enemy == null) return;
@@ -123,7 +125,16 @@ public sealed class GameManager : MonoBehaviour
         if (upgradePanel != null && !upgradePanel.activeSelf)
             ShowUpgrades();
     }
+    private void SetChoiceIcon(Image target, UpgradeChoice choice)
+    {
+        if (target == null)
+            return;
 
+        Sprite icon = choice != null ? choice.Icon : null;
+        target.sprite = icon != null ? icon : defaultUpgradeIcon;
+        target.enabled = target.sprite != null;
+        Debug.Log(choice.title);
+    }
     private void ShowUpgrades()
     {
         if (upgradePanel == null) return;
@@ -143,8 +154,8 @@ public sealed class GameManager : MonoBehaviour
             return;
         }
 
-        if (btnAText != null) btnAText.text = choiceA.title;
-        if (btnBText != null) btnBText.text = choiceB.title;
+        SetChoiceIcon(btnAImage, choiceA);
+        SetChoiceIcon(btnBImage, choiceB);
 
         if (btnA != null)
         {

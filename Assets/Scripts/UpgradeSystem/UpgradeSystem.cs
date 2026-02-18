@@ -19,7 +19,7 @@ public static class UpgradeSystem
             apply = (ps) => ps.Heal(25f),
             oneTime=false,
             iconResourcePath = "Upgrades/heal_25",
-        },
+        },/*
         new UpgradeChoice {
             id = "move_speed_10p",
             title = "+10% Move Speed",
@@ -104,7 +104,7 @@ public static class UpgradeSystem
             apply = (ps) => WithWeapon<PiercingBeamWeapon>(ps, w => w.MulDamage(1.25f)),
             oneTime=false,
             iconResourcePath = "Upgrades/beam_damage_25p",
-        },
+        },*/
     };
 
     public static UpgradeChoice RandomChoice(PlayerStats ps)
@@ -121,24 +121,5 @@ public static class UpgradeSystem
             return null;
 
         return available[Random.Range(0, available.Count)];
-    }
-
-    private static void WithCurrentWeapon(PlayerStats ps, System.Action<WeaponBase> act)
-    {
-        if (ps == null) return;
-
-        WeaponSystem ws = ps.GetComponent<WeaponSystem>();
-        if (ws == null || ws.CurrentWeapon == null) return;
-
-        act(ws.CurrentWeapon);
-    }
-
-    private static void WithWeapon<T>(PlayerStats ps, System.Action<T> act) where T : WeaponBase
-    {
-        if (ps == null) return;
-        T w = ps.GetComponent<T>();
-        if (w == null) w = ps.GetComponentInChildren<T>();
-        if (w == null) return;
-        act(w);
     }
 }
