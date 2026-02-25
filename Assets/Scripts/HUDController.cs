@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 
 public sealed class HUDController : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public sealed class HUDController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private TextMeshProUGUI waveText;
-    [SerializeField] private TextMeshProUGUI weaponText;
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI experienceText;
 
@@ -24,15 +24,20 @@ public sealed class HUDController : MonoBehaviour
     [SerializeField] private bool smoothBar = true;
     [SerializeField] private float barLerpSpeed = 12f;
 
+    [Header("UI - Weapons")]
+    [SerializeField] private Image meleeImage;
+    [SerializeField] private Image gunImage;
+    [SerializeField] private Image laserImage;
+
     private float lastHp = int.MinValue;
     private float lastMaxHp = int.MinValue;
     private int lastWave = int.MinValue;
-    private string lastWeaponName = null;
     private int lastLevel = int.MinValue;
     private float lastExp = int.MinValue;
     private float lastExpToNext = int.MinValue;
     private float shownHpFill = 1f;
     private float shownExpFill = 0f;
+    private int lastWeaponIndex = 1;
 
     private void Awake()
     {
@@ -147,16 +152,35 @@ public sealed class HUDController : MonoBehaviour
 
     private void UpdateWeapon()
     {
-        if (weaponText == null) return;
+        if (weaponSystem == null) return;
+        if (lastWeaponIndex == weaponSystem.CurrentIndex) return;
+        lastWeaponIndex = weaponSystem.CurrentIndex;
 
-        string name = "-";
-        if (weaponSystem != null && weaponSystem.CurrentWeapon != null)
-            name = weaponSystem.CurrentWeapon.WeaponName;
-
-        if (name != lastWeaponName)
+        Color c = meleeImage.color;
+        c.a = 0.5f;
+        switch (lastWeaponIndex)
         {
-            lastWeaponName = name;
-            weaponText.text = name;
+            case 0:
+                c.a = 1f;
+                meleeImage.color = c;
+                c.a = 0.5f;
+                gunImage.color = c;
+                laserImage.color = c;
+                break;
+            case 1:
+                c.a = 1f;
+                gunImage.color = c;
+                c.a = 0.5f;
+                meleeImage.color = c;
+                laserImage.color = c;
+                break;
+            case 2:
+                c.a = 1f;
+                laserImage.color = c;
+                c.a = 0.5f;
+                gunImage.color = c;
+                meleeImage.color = c;
+                break;
         }
     }
 }

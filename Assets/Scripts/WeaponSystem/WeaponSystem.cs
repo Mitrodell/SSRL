@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public sealed class WeaponSystem : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public sealed class WeaponSystem : MonoBehaviour
     private int currentIndex;
 
     public WeaponBase CurrentWeapon => currentWeapon;
+    public int CurrentIndex => currentIndex;
 
     private void Awake()
     {
