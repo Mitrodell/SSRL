@@ -15,12 +15,34 @@ public sealed class RangedEnemy : Enemy
     [Header("Aim")]
     [SerializeField] private float aimHeight = 1.2f;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string moveParam = "MoveX";
+    [SerializeField] private string blendParam = "Blend";
+    [SerializeField] private float animDamp = 0.08f;
+
     private float shootCd;
+    private int hMove;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        hMove = string.IsNullOrEmpty(moveParam) ? 0 : Animator.StringToHash(moveParam);
+    }
 
     protected override void Start()
     {
         base.Start();
         shootCd = Random.Range(0f, 0.5f);
+    }
+    protected override void Update()
+    {
+        base.Update();
+        TickAnimation();
     }
 
     protected override void TickAI(Vector3 toPlayerFlat, Vector3 separation)
@@ -68,6 +90,17 @@ public sealed class RangedEnemy : Enemy
         bulletDamage = Mathf.Max(0f, bulletDamage);
         minDistance = Mathf.Max(0f, minDistance);
         maxDistance = Mathf.Max(minDistance, maxDistance);
-        aimHeight = Mathf.Max(0f, aimHeight);
+        animDamp = Mathf.Max(0f, animDamp);
+    }
+
+    private void TickAnimation()
+    {
+        if (animator == null) return;
+
+        float speed = Mathf.Max(0.0001f, EffectiveMoveSpeed);
+        Vector3 localVelocity = transform.InverseTransformDirection(desiredVelocity);
+        float normalizedMove = Mathf.Clamp(localVelocity.z / speed, -1f, 1f);
+        if (hMove != 0)
+            animator.SetFloat(hMove, normalizedMove, animDamp, Time.deltaTime);
     }
 }
