@@ -18,11 +18,11 @@ public sealed class RangedEnemy : Enemy
     [Header("Animation")]
     [SerializeField] private Animator animator;
     [SerializeField] private string moveParam = "MoveX";
-    [SerializeField] private string blendParam = "Blend";
     [SerializeField] private float animDamp = 0.08f;
 
     private float shootCd;
     private int hMove;
+    private int hBlend;
 
     protected override void Awake()
     {
@@ -100,6 +100,7 @@ public sealed class RangedEnemy : Enemy
         float speed = Mathf.Max(0.0001f, EffectiveMoveSpeed);
         Vector3 localVelocity = transform.InverseTransformDirection(desiredVelocity);
         float normalizedMove = Mathf.Clamp(localVelocity.z / speed, -1f, 1f);
+
         if (hMove != 0)
             animator.SetFloat(hMove, normalizedMove, animDamp, Time.deltaTime);
     }
